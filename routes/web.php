@@ -31,3 +31,4 @@ Route::put('/admin/products/{id}/update', 'App\Http\Controllers\Admin\AdminProdu
 
 Route::get('sum/{a}&{b}', [OperationController::class, 'sum']);
 Route::get('tipo={tipo}({a}&{b})', [OperationController::class, 'operation']);
+Auth::routes();
