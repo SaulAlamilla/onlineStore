@@ -1,31 +1,28 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Order;
-use App\Models\Product;
+use App\Models\User;
+use App\Models\Item;
 
-class Item extends Model
+class Order extends Model
 {
     /**
-    * ITEM ATTRIBUTES
-    * $this->attributes['id'] - int - contains the item primary key (id)
-    * $this->attributes['quantity'] - int - contains the item quantity
-    * $this->attributes['price'] - int - contains the item price
-    * $this->attributes['order_id'] - int - contains the referenced order id
-    * $this->attributes['product_id'] - int - contains the referenced product id
-    * $this->attributes['created_at'] - timestamp - contains the item creation date
-    * $this->attributes['updated_at'] - timestamp - contains the item update date
-    * $this->order - Order - contains the associated Order
-    * $this->product - Product - contains the associated Product
-    */
+     * ORDER ATTRIBUTES
+     * $this->attributes['id'] - int - contains the order primary key (id)
+     * $this->attributes['total'] - string - contains the order name
+     * $this->attributes['user_id'] - int - contains the referenced user id
+     * $this->attributes['created_at'] - timestamp - contains the order creation date
+     * $this->attributes['updated_at'] - timestamp - contains the order update date
+     * $this->user - User - contains the associated User
+     * $this->items - Item[] - contains the associated items
+     */
     public static function validate($request)
     {
         $request->validate([
-            "price" => "required|numeric|gt:0",
-            "quantity" => "required|numeric|gt:0",
-            "product_id" => "required|exists:products,id",
-            "order_id" => "required|exists:orders,id",
+            "total" => "required|numeric",
+            "user_id" => "required|exists:users,id",
         ]);
     }
     public function getId()
@@ -36,37 +33,21 @@ class Item extends Model
     {
         $this->attributes['id'] = $id;
     }
-    public function getQuantity()
+    public function getTotal()
     {
-        return $this->attributes['quantity'];
+        return $this->attributes['total'];
     }
-    public function setQuantity($quantity)
+    public function setTotal($total)
     {
-        $this->attributes['quantity'] = $quantity;
+        $this->attributes['total'] = $total;
     }
-    public function getPrice()
+    public function getUserId()
     {
-        return $this->attributes['price'];
+        return $this->attributes['user_id'];
     }
-    public function setPrice($price)
+    public function setUserId($userId)
     {
-        $this->attributes['price'] = $price;
-    }
-    public function getOrderId()
-    {
-        return $this->attributes['order_id'];
-    }
-    public function setOrderId($orderId)
-    {
-        $this->attributes['order_id'] = $orderId;
-    }
-    public function getProductId()
-    {
-        return $this->attributes['product_id'];
-    }
-    public function setProductId($productId)
-    {
-        $this->attributes['product_id'] = $productId;
+        $this->attributes['user_id'] = $userId;
     }
     public function getCreatedAt()
     {
@@ -84,28 +65,28 @@ class Item extends Model
     {
         $this->attributes['updated_at'] = $updatedAt;
     }
-    public function order()
+    public function user()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(User::class);
     }
-    public function getOrder()
+    public function getUser()
     {
-        return $this->order;
+        return $this->user;
     }
-    public function setOrder($order)
+    public function setUser($user)
     {
-        $this->order = $order;
+        $this->user = $user;
     }
-    public function product()
+    public function items()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(Item::class);
     }
-    public function getProduct()
+    public function getItems()
     {
-        return $this->product;
+        return $this->items;
     }
-    public function setProduct($product)
+    public function setItems($items)
     {
-        $this->product = $product;
+        $this->items = $items;
     }
 }

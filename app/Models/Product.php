@@ -18,7 +18,7 @@ class Product extends Model
     * $this->attributes['updated_at'] - timestamp - contains the product update date
     * $this->items - Item[] - contains the associated items
     */
-    
+        
     public static function validate($request)
     {
         $request->validate([
